@@ -1,15 +1,24 @@
 <script lang="ts">
     import { Route } from 'tinro';
-    import { setContext } from "svelte";
+    import { setContext, onMount, onDestroy } from "svelte";
+    import { resourceStore } from './resources';
 
 	export let name: string = '';
 
-    setContext('resource', {
+    const definition = {
         hasCreate: $$slots.create,
         hasEdit: $$slots.edit,
         hasList: $$slots.index,
         hasShow: $$slots.show,
         name,
+    };
+
+    setContext('resource', definition);
+    onMount(() => {
+        resourceStore.add(definition)
+    });
+    onDestroy(() => {
+        resourceStore.remove(definition);
     });
 </script>
 

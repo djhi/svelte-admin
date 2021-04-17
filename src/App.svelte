@@ -5,23 +5,43 @@
 
 	import Admin from "./core/Admin.svelte";
 	import Resource from "./core/Resource.svelte";
-	import ProductsList from './ProductsList.svelte';
+	import ProductList from './ProductList.svelte';
+	import CategoryList from './CategoryList.svelte';
+	import Layout from './carbon/Layout.svelte';
+	import Appbar from './carbon/Appbar.svelte';
 
 	const dataProvider = fakeRestDataProvider(generateData(), true);
 </script>
 
 <Admin dataProvider={dataProvider}>
-	<Resource name="products">
-		<div slot="index">
-			<ProductsList />
-		</div>
-		<div slot="create">
-		</div>
-		<div slot="edit">
-		</div>
-		<div slot="show">
-		</div>
-	</Resource>
+	<Layout>
+        <svelte:fragment slot="header">
+			<Appbar company="Marmelab" title="Poster-galore" />
+		</svelte:fragment>
+
+		<Resource name="products">
+			<div slot="index">
+				<ProductList />
+			</div>
+			<div slot="create">
+			</div>
+			<div slot="edit">
+			</div>
+			<div slot="show">
+			</div>
+		</Resource>
+		<Resource name="categories">
+			<div slot="index">
+				<CategoryList />
+			</div>
+			<div slot="create">
+			</div>
+			<div slot="edit">
+			</div>
+			<div slot="show">
+			</div>
+		</Resource>
+	</Layout>
 </Admin>
 <style>
 	main {

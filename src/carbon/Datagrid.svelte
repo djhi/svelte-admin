@@ -3,7 +3,9 @@
     import { Pagination } from "carbon-components-svelte";
     import { getContext, hasContext } from "svelte";
     import type { ListContext } from "../types";
+    import DatagridCell from "./DatagridCell.svelte";
     export let context: ListContext;
+    export let fields;
 
     const handlePaginationChange = ({ detail }) => {
         context.setPagination({ perPage: detail.pageSize, page: detail.page })
@@ -13,14 +15,15 @@
 {#if context}
 <DataTable
     size="short"
-    headers={[
-        { key: 'reference', value: 'Reference' },
-        { key: 'height', value: 'Height' },
-        { key: 'width', value: 'Width' },
-        { key: 'price', value: 'Price' },
-    ]}
+    headers={fields.map(field => (
+        { key: field, value: field }
+    ))}
     rows={context.data}
-/>
+>
+    <DatagridCell slot="cell" let:row let:cell record={row}>
+        <slot name="cell" source={cell.key}>{cell.value}</slot>
+    </DatagridCell>
+</DataTable>
 <Pagination
     totalItems={context.total}
     pageSizes={[10, 25, 50]}
