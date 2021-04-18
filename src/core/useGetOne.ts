@@ -1,17 +1,17 @@
 import { getContext } from "svelte";
 import { useQuery } from '@sveltestack/svelte-query'
-import type { DataProvider, GetListResult, GetListParams } from "../types";
+import type { DataProvider, GetOneResult, GetOneParams } from "../types";
 
-export const useGetList = (params?: Partial<UseGetListParams>) => {
+export const useGetOne = (params?: Partial<UseGetOneParams>) => {
     const dataProvider = getContext<DataProvider>('dataProvider');
     const { name } = getContext('resource');
     const { resource, ...queryParams } = params;
 
     const resourceName = resource || name;
 
-    const query = useQuery<GetListResult, Error>(
+    const query = useQuery<GetOneResult, Error>(
         [resourceName, queryParams],
-        ({ queryKey }) => dataProvider.getList(queryKey[0], queryKey[1]),
+        ({ queryKey }) => dataProvider.getOne(queryKey[0], queryKey[1]),
         {
             staleTime: 1000,
         }
@@ -20,6 +20,6 @@ export const useGetList = (params?: Partial<UseGetListParams>) => {
     return query;
 }
 
-export interface UseGetListParams extends GetListParams {
+export interface UseGetOneParams extends GetOneParams {
     resource?: string;
 }

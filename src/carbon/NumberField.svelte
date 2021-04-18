@@ -1,16 +1,12 @@
 <script lang="ts">
     import { getContext } from "svelte";
+    import get from 'lodash/get';
     import type { ResourceRecord } from "../types";
 
     export let source;
-    const record = getContext<ResourceRecord>('record');
+    export let record;
+    const recordFromContext = getContext<ResourceRecord>('record');
+    const value = get((record || recordFromContext), source);
 </script>
 
-<style>
-	span {
-        display: block;
-        text-align: right;
-    }
-</style>
-
-<span>{record[source]}</span>
+<span>{value}</span>

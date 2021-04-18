@@ -12,7 +12,7 @@
 
   const { name } = getContext("resource");
 
-  $: queryResult = useGetList({ resource: name, pagination, sort, filter });
+  $: queryResult = useGetList({ pagination, sort, filter });
   $: data = $queryResult?.data?.data;
   $: total = $queryResult?.data?.total;
 
@@ -33,10 +33,8 @@
     },
   };
 
-  setContext<ListContext>("list", context);
+    setContext<ListContext>("list", context);
 </script>
-
-<h1>List page for resource {name}</h1>
 
 {#if $queryResult.isLoading}
   <slot name="loading">
