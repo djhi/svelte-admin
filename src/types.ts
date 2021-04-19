@@ -1,3 +1,5 @@
+import { QueryStatus } from "@sveltestack/svelte-query";
+
 export type DataProvider = {
     getList: <RecordType extends ResourceRecord = ResourceRecord>(
         resource: string,
@@ -162,7 +164,12 @@ export interface ResourceRecord {
 
 export type ResourceRecordMap = Record<Identifier, ResourceRecord>;
 
-export type ListContext<RecordType extends ResourceRecord = ResourceRecord, FilterType = any> = {
+export type QueryContext = {
+    status: QueryStatus;
+    error: Error;
+}
+
+export interface ListContext<RecordType extends ResourceRecord = ResourceRecord, FilterType = any> extends QueryContext {
     data: RecordType[];
     total: number;
     pagination: PaginationPayload;

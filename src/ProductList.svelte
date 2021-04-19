@@ -6,8 +6,8 @@
     import ReferenceField from "./core/ReferenceField.svelte";
 </script>
 
-<List let:context={context}>
-    <Datagrid context={context} fields={[
+<List>
+    <Datagrid fields={[
         'reference',
         'category_id',
         'height',

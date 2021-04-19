@@ -1,7 +1,11 @@
 <script lang="ts">
   import { getContext, setContext } from "svelte";
+  import { derived } from "svelte/store";
+  import type { Readable } from "svelte/store";
   import type { ListContext, PaginationPayload, SortPayload } from "../types";
   import { useGetList } from "./useGetList";
+
+  const { name } = getContext("resource");
   const DefaultSort = { field: "id", order: "DESC" };
   const DefaultPagination = { page: 1, perPage: 25 };
   const DefaultFilter = {};
@@ -10,40 +14,21 @@
   let sort = DefaultSort;
   let filter = DefaultFilter;
 
-  const { name } = getContext("resource");
+  const queryParams = { resource: name, pagination, sort, filter };
 
-  $: queryResult = useGetList({ pagination, sort, filter });
-  $: data = $queryResult?.data?.data;
-  $: total = $queryResult?.data?.total;
+  let queryStore = useGetList(queryParams);
 
-  $: context = {
-    data,
-    total,
-    pagination,
-    sort,
-    filter,
-    setPagination: (newPagination: Partial<PaginationPayload>) => {
-      pagination = { ...pagination, ...newPagination };
-    },
-    setSort: (newSort: Partial<SortPayload>) => {
-      sort = { ...sort, ...newSort };
-    },
-    setFilter: (newFilter: any) => {
-      filter = newFilter;
-    },
-  };
-
-    setContext<ListContext>("list", context);
+  setContext<Readable<ListContext>>("list", queryStore);
 </script>
 
-{#if $queryResult.isLoading}
+{#if $queryStore.status === 'loading'}
   <slot name="loading">
     <span>Loading...</span>
   </slot>
-{:else if $queryResult.isError}
+{:else if $queryStore.status === 'error'}
   <slot name="error">
-    <span>Error: {$queryResult.error.message}</span>
+    <span>Error: {$queryStore.error.message}</span>
   </slot>
 {:else}
-  <slot data={data} total={total} context={context} />
+  <slot />
 {/if}

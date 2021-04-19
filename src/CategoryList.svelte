@@ -4,8 +4,8 @@
     import List from "./core/List.svelte";    
 </script>
 
-<List let:context={context}>
-    <Datagrid context={context} fields={[
+<List>
+    <Datagrid fields={[
         'name',
     ]}>
         <svelte:fragment slot="cell" let:source>

@@ -6,29 +6,30 @@
     import { DataTable } from "carbon-components-svelte";
     import { Pagination } from "carbon-components-svelte";
     import { humanize } from 'inflection';
+    import { getContext } from "svelte";
+    import type { Readable } from "svelte/store";
 
     import type { ListContext } from "../types";
     import DatagridCell from "./DatagridCell.svelte";
-    export let context: ListContext;
     export let fields;
 
+    const context = getContext<Readable<ListContext>>('list');
     const handlePaginationChange = ({ detail }) => {
-        context.setPagination({ perPage: detail.pageSize, page: detail.page })
+        $context.setPagination({ perPage: detail.pageSize, page: detail.page })
     };
 
     const handleHeaderClick = ({ detail }) => {
-        context.setSort({ field: detail.header.key, order: sorting[detail.sortDirection] });
+        $context.setSort({ field: detail.header.key, order: sorting[detail.sortDirection] });
     }
 </script>
 
-{#if context}
 <DataTable
     size="short"
     sortable
     headers={fields.map(field => (
         { key: field, value: field }
     ))}
-    rows={context.data}
+    rows={$context.data}
     on:click:header={handleHeaderClick}
 >
     <svelte:fragment slot="cell-header" let:header>
@@ -41,10 +42,9 @@
     </DatagridCell>
 </DataTable>
 <Pagination
-    totalItems={context.total}
+    totalItems={$context.total}
     pageSizes={[10, 25, 50]}
-    page={context.pagination.page}
-    pageSize={context.pagination.perPage}
+    page={$context.pagination.page}
+    pageSize={$context.pagination.perPage}
     on:update={handlePaginationChange}
 />
-{/if}
