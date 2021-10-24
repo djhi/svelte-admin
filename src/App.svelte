@@ -10,11 +10,7 @@
 </script>
 
 <Admin {dataProvider}>
-  <Layout>
-    <svelte:fragment slot="header">
-      <Appbar company="Marmelab" title="Poster-galore" />
-    </svelte:fragment>
-
+  <Layout title="Poster-galore">
     <Resource name="products">
       <ProductList slot="index" />
       <div slot="create" />

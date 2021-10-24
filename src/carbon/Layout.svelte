@@ -1,12 +1,14 @@
 <script lang="ts">
-    import { Content } from "carbon-components-svelte";
-    import Appbar from "./Appbar.svelte";
-import Sidebar from "./Sidebar.svelte";
+  import { Content } from "carbon-components-svelte";
+  import Appbar from "./Appbar.svelte";
+  import Sidebar from "./Sidebar.svelte";
+  export let title = "";
+  let isSideNavOpen = false;
 </script>
 
-<slot name="header"><Appbar /></slot>
-<slot name="sidebar"><Sidebar /></slot>
+<slot name="header"><Appbar company={title} bind:isSideNavOpen /></slot>
+<slot name="sidebar"><Sidebar bind:isSideNavOpen /></slot>
 <Content>
-    <slot></slot>
+  <slot />
 </Content>
-<slot name="footer"></slot>
+<slot name="footer" />
