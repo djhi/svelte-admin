@@ -1,12 +1,21 @@
 <script lang="ts">
-    import { getContext } from "svelte";
-    import get from 'lodash/get';
-    import type { ResourceRecord } from "../types";
+  import get from "lodash/get";
+  import { getResourceRecord } from "../core";
 
-    export let source;
-    export let record;
-    const recordFromContext = getContext<ResourceRecord>('record');
-    $: value = get((record || recordFromContext), source);
+  export let source;
+  export let label = undefined;
+  export let record = undefined;
+  const recordFromContext = getResourceRecord();
+  $: value = get(record || recordFromContext, source);
 </script>
 
-<span>{value}</span>
+<div>
+  {#if label}
+    <span class="bx--label">
+      <slot name="labelText">
+        {label}
+      </slot>
+    </span>
+  {/if}
+  <div>{value}</div>
+</div>

@@ -1,7 +1,6 @@
 <script lang="ts">
-    import Datagrid from "./carbon/Datagrid.svelte";
-    import TextField from "./carbon/TextField.svelte";
-    import List from "./core/List.svelte";    
+    import { List } from "./core";
+    import { Datagrid, TextField } from "./carbon";
 </script>
 
 <List>

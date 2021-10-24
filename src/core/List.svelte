@@ -13,19 +13,17 @@
   let pagination = DefaultPagination;
   let sort = DefaultSort;
   let filter = DefaultFilter;
-
   const queryParams = { resource: name, pagination, sort, filter };
-
-  let queryStore = useGetList(queryParams);
+  const queryStore = useGetList(queryParams);
 
   setContext<Readable<ListContext>>("list", queryStore);
 </script>
 
-{#if $queryStore.status === 'loading'}
+{#if $queryStore.status === "loading"}
   <slot name="loading">
     <span>Loading...</span>
   </slot>
-{:else if $queryStore.status === 'error'}
+{:else if $queryStore.status === "error"}
   <slot name="error">
     <span>Error: {$queryStore.error.message}</span>
   </slot>

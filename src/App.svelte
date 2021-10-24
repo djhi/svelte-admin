@@ -1,41 +1,31 @@
 <script lang="ts">
-	import fakeRestDataProvider from 'ra-data-fakerest';
-	import generateData from 'data-generator-retail';
-	import "carbon-components-svelte/css/all.css";
+  import "carbon-components-svelte/css/all.css";
 
-	import Admin from "./core/Admin.svelte";
-	import Resource from "./core/Resource.svelte";
-	import ProductList from './ProductList.svelte';
-	import CategoryList from './CategoryList.svelte';
-	import Layout from './carbon/Layout.svelte';
-	import Appbar from './carbon/Appbar.svelte';
-
-	const dataProvider = fakeRestDataProvider(generateData(), true);
+  import { Admin, Resource } from "./core";
+  import { Appbar, Layout } from "./carbon";
+  import ProductList from "./ProductList.svelte";
+  import ProductShow from "./ProductShow.svelte";
+  import CategoryList from "./CategoryList.svelte";
+  import { dataProvider } from "./dataProvider";
 </script>
 
-<Admin dataProvider={dataProvider}>
-	<Layout>
-        <svelte:fragment slot="header">
-			<Appbar company="Marmelab" title="Poster-galore" />
-		</svelte:fragment>
+<Admin {dataProvider}>
+  <Layout>
+    <svelte:fragment slot="header">
+      <Appbar company="Marmelab" title="Poster-galore" />
+    </svelte:fragment>
 
-		<Resource name="products">
-			<ProductList slot="index" />
-			<div slot="create">
-			</div>
-			<div slot="edit">
-			</div>
-			<div slot="show">
-			</div>
-		</Resource>
-		<Resource name="categories">
-			<CategoryList slot="index" />
-			<div slot="create">
-			</div>
-			<div slot="edit">
-			</div>
-			<div slot="show">
-			</div>
-		</Resource>
-	</Layout>
+    <Resource name="products">
+      <ProductList slot="index" />
+      <div slot="create" />
+      <div slot="edit" />
+      <ProductShow slot="show" />
+    </Resource>
+    <Resource name="categories">
+      <CategoryList slot="index" />
+      <div slot="create" />
+      <div slot="edit" />
+      <div slot="show" />
+    </Resource>
+  </Layout>
 </Admin>
