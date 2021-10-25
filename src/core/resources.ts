@@ -1,5 +1,5 @@
-import { getContext } from "svelte";
-import { writable } from "svelte/store";
+import { getContext, setContext } from "svelte";
+import { writable, Readable } from "svelte/store";
 import type { ResourceRecord } from "../types";
 
 export type ResourceDefinition = {
@@ -26,8 +26,13 @@ export const getResource = () => {
   return getContext<ResourceDefinition>("resource");
 };
 
+const ResourceRecordContextKey = "@@admin/record";
+export const setResourceRecord = (record: Readable<ResourceRecord>) => {
+  return setContext<Readable<ResourceRecord>>(ResourceRecordContextKey, record);
+};
+
 export const getResourceRecord = () => {
-  return getContext<ResourceRecord>("record");
+  return getContext<Readable<ResourceRecord>>(ResourceRecordContextKey);
 };
 
 export const resourceStore = {

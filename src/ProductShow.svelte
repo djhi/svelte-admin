@@ -6,8 +6,8 @@
 <Show>
   <div class="container">
     <TextField source="reference" label="Reference" />
-    <ReferenceField reference="categories" source="category_id" let:record>
-      <TextField source="name" {record} label="Category" />
+    <ReferenceField reference="categories" source="category_id">
+      <TextField source="name" label="Category" />
     </ReferenceField>
     <div class="row">
       <NumberField source="height" label="Height" />

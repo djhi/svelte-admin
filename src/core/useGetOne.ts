@@ -10,7 +10,10 @@ import type {
 import { getDataProvider } from "./dataProvider";
 import { getResource } from "./resources";
 
-export const useGetOne = (params?: UseGetOneParams) => {
+export const useGetOne = (
+  params?: UseGetOneParams,
+  enabled: boolean = true
+) => {
   const dataProvider = getDataProvider();
   const { name } = getResource();
   const queryClient = useQueryClient();
@@ -23,26 +26,31 @@ export const useGetOne = (params?: UseGetOneParams) => {
       ...queryKey[1],
     }));
   };
+
+  const initialData = () => {
+    const queryData = queryClient.getQueryData<ResourceRecordMap>(resourceName);
+    if (!queryData) return undefined;
+    console.log({ queryData });
+    return {
+      data: queryData[queryParams.id],
+    };
+  };
+
+  const onSuccess = (data) => {
+    const queryData = queryClient.getQueryData(resourceName);
+    queryClient.setQueryData(resourceName, merge({}, queryData, data.data));
+  };
+
   const query = useQuery<
     GetOneResult,
     Error,
     GetOneResult,
     [string, UseGetOneParams]
   >([resourceName, queryParams], queryFn, {
+    enabled,
     staleTime: 1000,
-    initialData: () => {
-      const queryData =
-        queryClient.getQueryData<ResourceRecordMap>(resourceName);
-      if (!queryData) return undefined;
-      console.log({ queryData });
-      return {
-        data: queryData[queryParams.id],
-      };
-    },
-    onSuccess: (data) => {
-      const queryData = queryClient.getQueryData(resourceName);
-      queryClient.setQueryData(resourceName, merge({}, queryData, data.data));
-    },
+    initialData,
+    onSuccess,
   });
 
   const result = derived(query, (queryResult) => ({
@@ -51,7 +59,17 @@ export const useGetOne = (params?: UseGetOneParams) => {
     error: queryResult.error,
   }));
 
-  return result;
+  return {
+    ...result,
+    setId: (id, enabled = true) => {
+      query.setOptions([resourceName, { ...queryParams, id }], queryFn, {
+        enabled,
+        staleTime: 1000,
+        initialData,
+        onSuccess,
+      });
+    },
+  };
 };
 
 export interface UseGetOneParams extends GetOneParams {

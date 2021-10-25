@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { setContext } from "svelte";
-    import type { ResourceRecord } from "../types";
-    export let record;
+  import { readable } from "svelte/store";
+  import { setResourceRecord } from "../core";
+  export let record;
 
-    setContext<ResourceRecord>('record', record);
+  setResourceRecord(readable(record));
 </script>
 
 <slot />

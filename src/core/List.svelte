@@ -4,6 +4,7 @@
   import type { Readable } from "svelte/store";
   import type { ListContext, PaginationPayload, SortPayload } from "../types";
   import { useGetList } from "./useGetList";
+  import { setDataLoadingState } from "./DataLoading";
 
   const { name } = getContext("resource");
   const DefaultSort = { field: "id", order: "DESC" };
@@ -15,7 +16,11 @@
   let filter = DefaultFilter;
   const queryParams = { resource: name, pagination, sort, filter };
   const queryStore = useGetList(queryParams);
-
+  const dataLoadingContext = derived(queryStore, ($query) => ({
+    status: $query.status,
+    error: $query.error,
+  }));
+  setDataLoadingState(dataLoadingContext);
   setContext<Readable<ListContext>>("list", queryStore);
 </script>
 

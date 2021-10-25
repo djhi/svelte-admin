@@ -32,6 +32,7 @@
     "lodash": "^4.17.21",
     "ra-data-fakerest": "^3.19.0",
     "sirv-cli": "^1.0.14",
+    "svelte-forms-lib": "^1.10.7",
     "tinro": "^0.6.7"
   }
 }

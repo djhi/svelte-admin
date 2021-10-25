@@ -4,6 +4,7 @@
   import { Admin, Resource } from "./core";
   import { Appbar, Layout } from "./carbon";
   import ProductList from "./ProductList.svelte";
+  import ProductEdit from "./ProductEdit.svelte";
   import ProductShow from "./ProductShow.svelte";
   import CategoryList from "./CategoryList.svelte";
   import { dataProvider } from "./dataProvider";
@@ -14,7 +15,7 @@
     <Resource name="products">
       <ProductList slot="index" />
       <div slot="create" />
-      <div slot="edit" />
+      <ProductEdit slot="edit" />
       <ProductShow slot="show" />
     </Resource>
     <Resource name="categories">

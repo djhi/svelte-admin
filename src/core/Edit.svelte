@@ -15,7 +15,6 @@
   const queryStore = useGetOne(queryParams);
   const record = derived(queryStore, ($query) => $query.data);
   setResourceRecord(record);
-
   export const status = derived(queryStore, ($query) => $query.status);
   export const error = derived(queryStore, ($query) => $query.error);
   export const data = derived(queryStore, ($query) => $query.data);
@@ -24,6 +23,9 @@
     error: $query.error,
   }));
   setDataLoadingState(dataLoadingContext);
+  export const save = (values) => {
+    console.log({ values });
+  };
 </script>
 
 <slot />
