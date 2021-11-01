@@ -1,13 +1,13 @@
-import { derived } from "svelte/store";
+import { get, Readable, writable } from "svelte/store";
 import { useQuery, useQueryClient } from "@sveltestack/svelte-query";
 import type {
   UseQueryOptions,
   UseQueryStoreResult,
 } from "@sveltestack/svelte-query";
 import type {
+  FilterPayload,
   GetListParams,
   GetListResult,
-  Identifier,
   PaginationPayload,
   ResourceRecord,
   ResourceRecordMap,
@@ -34,6 +34,10 @@ export const useGetList = (
   let { resource, ...queryParams } = params;
 
   const resourceName = resource || name;
+  const pagination = writable(params.pagination || { page: 1, perPage: 10 });
+  const sort = writable(params.sort || { field: "id", order: "asc" });
+  const filter = writable(params.filter || {});
+
   const queryFn = ({ queryKey }: { queryKey: UseGetListQueryKey }) => {
     return dataProvider
       .getList(queryKey[0], queryKey[1])
@@ -67,10 +71,9 @@ export const useGetList = (
     queryKey: [
       resourceName,
       {
-        pagination: { page: 1, perPage: 10 },
-        sort: { field: "id", order: "ASC" },
-        filter: {},
-        ...queryParams,
+        pagination: get(pagination),
+        sort: get(sort),
+        filter: get(filter),
       },
     ],
     queryFn,
@@ -80,15 +83,18 @@ export const useGetList = (
   });
 
   const setPagination = (newPagination: Partial<PaginationPayload>) => {
+    pagination.update((oldPagination) => ({
+      ...oldPagination,
+      ...newPagination,
+    }));
     query.setOptions({
       queryFn,
       queryKey: [
         resourceName,
         {
-          sort: { field: "id", order: "ASC" },
-          filter: {},
-          ...queryParams,
-          pagination: { ...queryParams.pagination, ...newPagination },
+          pagination: get(pagination),
+          sort: get(sort),
+          filter: get(filter),
         },
       ],
       staleTime: 1000,
@@ -97,15 +103,18 @@ export const useGetList = (
     });
   };
   const setSort = (newSort: Partial<SortPayload>) => {
+    sort.update((oldSort) => ({
+      ...oldSort,
+      ...newSort,
+    }));
     query.setOptions({
       queryFn,
       queryKey: [
         resourceName,
         {
-          pagination: { page: 1, perPage: 10 },
-          filter: {},
-          ...queryParams,
-          sort: { ...queryParams.sort, ...newSort },
+          pagination: get(pagination),
+          sort: get(sort),
+          filter: get(filter),
         },
       ],
       staleTime: 1000,
@@ -113,32 +122,43 @@ export const useGetList = (
       ...options,
     });
   };
-  const setFilter = (newFilter: any) => {
+  const setFilter = (newFilter: FilterPayload) => {
+    filter.set(newFilter);
     query.setOptions({
       queryFn,
       queryKey: [
         resourceName,
         {
-          pagination: { page: 1, perPage: 10 },
-          sort: { field: "id", order: "ASC" },
-          ...queryParams,
-          filter: newFilter,
+          pagination: get(pagination),
+          sort: get(sort),
+          filter: get(filter),
         },
       ],
       staleTime: 1000,
       keepPreviousData: true,
       ...options,
+    });
+  };
+
+  const subscribe = (subscriber) => {
+    return query.subscribe((queryValue) => {
+      subscriber({
+        ...queryValue,
+        pagination: get(pagination),
+        sort: get(sort),
+        filter: get(filter),
+      });
     });
   };
 
   const result = {
     ...query,
+    subscribe,
     setPagination,
     setSort,
     setFilter,
   };
 
-  // @ts-ignore
   return result;
 };
 
@@ -150,12 +170,16 @@ export interface UseGetListResult
   extends UseQueryStoreResult<
     GetListResult<ResourceRecord>,
     Error,
-    GetListResult<ResourceRecord>,
+    GetListResult<ResourceRecord> & {
+      pagination: Readable<PaginationPayload>;
+      sort: Readable<SortPayload>;
+      filter: Readable<FilterPayload>;
+    },
     [string, UseGetListParams]
   > {
   setPagination: (newPagination: Partial<PaginationPayload>) => void;
   setSort: (newSort: Partial<SortPayload>) => void;
-  setFilter: (newFilter: any) => void;
+  setFilter: (newFilter: FilterPayload) => void;
 }
 
 type UseGetListQueryKey = [string, UseGetListParams];

@@ -14,9 +14,14 @@
   const context = getContext<UseGetListResult>("list");
 
   const handlePaginationChange = (options) => {
-    console.log({ options });
     const { detail } = options;
-    if (!detail || detail.pageSize == undefined || detail.page == undefined) {
+    if (
+      !detail ||
+      detail.pageSize == undefined ||
+      detail.page == undefined ||
+      isNaN(detail.pageSize) ||
+      isNaN(detail.page)
+    ) {
       return;
     }
     context.setPagination({ perPage: detail.pageSize, page: detail.page });
@@ -49,7 +54,7 @@
 <Pagination
   totalItems={$context?.data?.total}
   pageSizes={[10, 25, 50]}
-  page={$context?.data?.pagination?.page}
-  pageSize={$context?.data?.pagination?.perPage}
+  page={$context?.pagination?.page}
+  pageSize={$context?.pagination?.perPage}
   on:update={handlePaginationChange}
 />
