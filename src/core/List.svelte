@@ -1,8 +1,10 @@
 <script lang="ts">
   import { getContext, setContext } from "svelte";
   import { derived } from "svelte/store";
+  import { capitalize, pluralize } from "inflection";
   import { useGetList, UseGetListResult } from "./useGetList";
   import { setDataLoadingState } from "./DataLoading";
+  import { setPageTitle } from "./pageTitle";
 
   const { name } = getContext("resource");
   const DefaultSort = { field: "id", order: "ASC" };
@@ -12,6 +14,7 @@
   export let pagination = DefaultPagination;
   export let sort = DefaultSort;
   export let filter = DefaultFilter;
+  export let pageTitle = capitalize(pluralize(name));
   const queryParams = { resource: name, pagination, sort, filter };
   const queryStore = useGetList(queryParams);
   const dataLoadingContext = derived(queryStore, ($query) => ({
@@ -20,6 +23,7 @@
   }));
   setDataLoadingState(dataLoadingContext);
   setContext<UseGetListResult>("list", queryStore);
+  setPageTitle(pageTitle);
 </script>
 
 {#if $queryStore.status === "error"}

@@ -1,13 +1,13 @@
 <script lang="ts">
   import { Header, SkipToContent } from "carbon-components-svelte";
+  import { pageTitle } from "../core/pageTitle";
   export let company = "";
-  export let title = "";
   export let isSideNavOpen;
 </script>
 
 <Header
   {company}
-  platformName={title}
+  platformName={$pageTitle}
   persistentHamburgerMenu={true}
   bind:isSideNavOpen
 >
