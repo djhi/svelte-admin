@@ -10,9 +10,7 @@
 </script>
 
 <List sort={{ field: "reference", order: "ASC" }}>
-  <Datagrid
-    fields={["reference", "category_id", "height", "width", "price", ""]}
-  >
+  <Datagrid fields={["reference", "category_id", "height", "width", "price"]}>
     <svelte:fragment slot="cell" let:source>
       {#if source === "reference"}
         <TextField {source} />
@@ -22,7 +20,9 @@
         </ReferenceField>
       {:else if ["height", "width", "price"].includes(source)}
         <NumberField {source} />
-      {:else}
+      {/if}
+
+      {#if source === "@@actions"}
         <EditButton />
         <ShowButton />
       {/if}

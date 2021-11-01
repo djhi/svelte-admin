@@ -9,4 +9,4 @@
   $: id = get(record || $recordFromContext, "id");
 </script>
 
-<Button href={`/${resource.name}/${id}`} size="small">Edit</Button>
+<Button href={`/${resource.name}/${id}`} size="small" kind="ghost">Edit</Button>

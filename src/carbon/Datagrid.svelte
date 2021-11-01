@@ -10,6 +10,7 @@
   import type { UseGetListResult } from "../core";
   import DatagridCell from "./DatagridCell.svelte";
   export let fields;
+  export let hasActions = true;
 
   const context = getContext<UseGetListResult>("list");
 
@@ -36,9 +37,16 @@
 </script>
 
 <DataTable
-  size="short"
+  size="compact"
   sortable
-  headers={fields.map((field) => ({ key: field, value: field }))}
+  headers={fields
+    .map((field) => ({
+      key: field,
+      value: field,
+    }))
+    .concat(
+      hasActions ? { key: "@@actions", value: "Actions", empty: true } : []
+    )}
   rows={$context?.data?.data ?? []}
   on:click:header={handleHeaderClick}
 >
