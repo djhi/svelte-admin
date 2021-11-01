@@ -8,7 +8,7 @@
   import ProductShow from "./ProductShow.svelte";
   import CategoryList from "./CategoryList.svelte";
   import { delayedDataProvider } from "./dataProvider";
-  const dataProvider = delayedDataProvider(0);
+  const dataProvider = delayedDataProvider(2000);
 </script>
 
 <Admin {dataProvider}>

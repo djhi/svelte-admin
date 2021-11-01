@@ -1,31 +1,55 @@
 <script lang="ts">
-  import { getContext, setContext } from "svelte";
-  import { derived } from "svelte/store";
+  import { setContext } from "svelte";
+  import { derived, get, writable } from "svelte/store";
   import { meta } from "tinro";
-  import type { ResourceRecord } from "../types";
+  import { capitalize, singularize } from "inflection";
+  import { useMutation } from "@sveltestack/svelte-query";
   import { setDataLoadingState } from "./DataLoading";
-  import { setResourceRecord } from "./resources";
+  import { setPageTitle } from "./pageTitle";
+  import { getResource, setResourceRecord } from "./resources";
   import { useGetOne } from "./useGetOne";
+  import { getDataProvider } from "./dataProvider";
 
   const route = meta();
   export let id = route.params.id;
-  const { name } = getContext("resource");
+  const { name } = getResource();
+  let resolvedPageTitle = writable(`${capitalize(singularize(name))} #${id}`);
+  export let pageTitle = undefined;
 
   const queryParams = { resource: name, id };
   const queryStore = useGetOne(queryParams);
-  const record = derived(queryStore, ($query) => $query.data);
+  const record = derived(queryStore, ($query) => $query?.data?.data);
   setResourceRecord(record);
-  export const status = derived(queryStore, ($query) => $query.status);
-  export const error = derived(queryStore, ($query) => $query.error);
-  export const data = derived(queryStore, ($query) => $query.data);
+
+  $: {
+    if (typeof pageTitle === "function" && !!$record) {
+      const title = pageTitle($record);
+      resolvedPageTitle.set(title);
+    }
+
+    setPageTitle($resolvedPageTitle);
+  }
+
   const dataLoadingContext = derived(queryStore, ($query) => ({
     status: $query.status,
     error: $query.error,
   }));
   setDataLoadingState(dataLoadingContext);
+
+  const dataProvider = getDataProvider();
+  const mutation = useMutation((values) => {
+    return dataProvider.update(name, {
+      id,
+      data: values,
+      previousData: get(record),
+    });
+  });
+
   export const save = (values) => {
-    console.log({ values });
+    return $mutation.mutateAsync(values);
   };
+
+  setContext("save", save);
 </script>
 
 <slot />

@@ -3,9 +3,13 @@
   import { createForm } from "svelte-forms-lib";
   import type { FormProps } from "./form";
   import { getResourceRecord } from "./resources";
-  export let formProps: FormProps = undefined;
+  const save = getContext<(values: Record<string, any>) => void>("save");
+  export let formProps: FormProps = {
+    onSubmit: save,
+  };
 
   const record = getResourceRecord();
+  console.log({ save, formProps });
   const formApi = createForm({
     ...formProps,
     initialValues: $record || formProps.initialValues,
@@ -18,8 +22,7 @@
   }
 
   setContext("form", formApi);
+  export let form = formApi;
 </script>
 
-<form on:submit={formApi.handleSubmit}>
-  <slot />
-</form>
+<slot />

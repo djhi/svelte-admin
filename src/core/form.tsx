@@ -7,4 +7,6 @@ export type FormProps = {
   validate?: (values: Record<string, any>) => any | undefined;
 };
 
+export type FormApi = ReturnType<typeof createForm>;
+
 export const getForm = () => getContext<ReturnType<typeof createForm>>("form");

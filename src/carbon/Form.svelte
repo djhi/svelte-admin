@@ -1,15 +1,17 @@
 <script lang="ts">
-  import { getContext, setContext } from "svelte";
-  import { createForm } from "svelte-forms-lib";
-  import { Button } from "carbon-components-svelte";
-  import type { FormProps } from "../core";
+  import { Form as Carbonform } from "carbon-components-svelte";
+  import type { FormApi, FormProps } from "../core";
   import { Form } from "../core";
+  import SaveButton from "./SaveButton.svelte";
   export let formProps: FormProps = undefined;
+  let form: FormApi;
 </script>
 
-<Form {formProps}>
-  <slot />
-  <slot name="toolbar">
-    <Button type="submit" size="small">Submit</Button>
-  </slot>
+<Form {formProps} bind:form>
+  <Carbonform on:submit={form.handleSubmit}>
+    <slot />
+    <slot name="toolbar">
+      <SaveButton />
+    </slot>
+  </Carbonform>
 </Form>
