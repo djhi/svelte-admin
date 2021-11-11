@@ -1,15 +1,14 @@
 <script lang="ts">
   import { TextInput, TextInputSkeleton } from "carbon-components-svelte";
-  import { getForm } from "../../core";
-  import { getDataLoadingState } from "../../core";
+  import { getForm, getIsLoading } from "../../core";
 
   export let source;
   export let label = undefined;
-  const dataLoadingContext = getDataLoadingState();
   const { form, handleChange } = getForm();
+  const isLoading = getIsLoading();
 </script>
 
-{#if $dataLoadingContext.status === "loading"}
+{#if $isLoading}
   <TextInputSkeleton {...$$restProps} />
 {:else}
   <TextInput
