@@ -39,19 +39,6 @@ export const useGetOne = (
     }));
   };
 
-  const initialData = () => {
-    const queryData = queryClient.getQueryData<ResourceRecordMap>(resourceName);
-    if (!queryData) return undefined;
-    return {
-      data: queryData[queryParams.id],
-    };
-  };
-
-  const onSuccess = (data) => {
-    const queryData = queryClient.getQueryData(resourceName);
-    queryClient.setQueryData(resourceName, merge({}, queryData, data.data));
-  };
-
   const query = useQuery<
     GetOneResult,
     Error,

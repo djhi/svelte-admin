@@ -48,18 +48,10 @@ export const useGetList = (
   };
 
   const onSuccess = (data) => {
-    const queryData = queryClient.getQueryData<ResourceRecordMap>(resourceName);
-
-    queryClient.setQueryData(
-      resourceName,
-      data.data.reduce(
-        (acc, item) => ({
-          ...acc,
-          [item.id]: item,
-        }),
-        queryData || {}
-      )
-    );
+    data.data.forEach((record) => {
+      const queryKey = [resourceName, { id: record.id.toString() }];
+      queryClient.setQueryData(queryKey, { data: record });
+    });
   };
 
   const query = useQuery<
@@ -79,6 +71,7 @@ export const useGetList = (
     queryFn,
     staleTime: 1000,
     keepPreviousData: true,
+    onSuccess,
     ...options,
   });
 
@@ -99,6 +92,7 @@ export const useGetList = (
       ],
       staleTime: 1000,
       keepPreviousData: true,
+      onSuccess,
       ...options,
     });
   };
@@ -119,6 +113,7 @@ export const useGetList = (
       ],
       staleTime: 1000,
       keepPreviousData: true,
+      onSuccess,
       ...options,
     });
   };
@@ -136,6 +131,7 @@ export const useGetList = (
       ],
       staleTime: 1000,
       keepPreviousData: true,
+      onSuccess,
       ...options,
     });
   };
