@@ -1,122 +1,24 @@
-# Svelte Vite Starter
+# svelte-admin
 
-A starter template for [Svelte](https://svelte.dev) that comes preconfigured with [Vite](https://vitejs.dev/),
-TypeScript, SCSS, Babel, Autoprefixer, and HMR.
+An experiment (for now) to build an equivalent of [react-admin](https://marmelab.com/react-admin) for svelte.
 
-- [Getting started](#getting-started)
-  - [Installation](#installation)
-  - [Starting the development server](#starting-the-development-server)
-  - [Building for production](#building-for-production)
-- [Usage](#usage)
-  - [Global stylesheets](#global-stylesheets)
-  - [Browsers list](#browsers-list)
-  - [Babel customization](#babel-customization)
-  - [Source maps in production](#source-maps-in-production)
-  - [Import path aliases](#import-path-aliases)
+The current version is deployed automatically via Vercel at this address:
 
-> ⚠ **Consider trying the new vite-based [SvelteKit](https://kit.svelte.dev/)!**
+[https://svelte-admin-seven.vercel.app/](https://svelte-admin-seven.vercel.app/)
 
----
+This is currently a single repository with a single application, not a library.
 
-## Getting started
+## Roadmap
 
-### Installation
+- [ ] Have the basic core features implemented
+- [ ] Refactor as a monorepo with multiple libraries and an example application
 
-Pull the template files with [`degit`](https://github.com/Rich-Harris/degit) and install dependencies.
+## Contribute
 
-```bash
-npx degit baileyherbert/svelte-vite-starter
-npm install
-```
+You can look for issues labelled with _Help Wanted_ if you want to contribute.
 
-### Starting the development server
+Simply clone the repository and install the dependencies with `yarn` (for now).
 
-Run the `dev` script to start a live development server with hot module replacement. Then check the output for a link
-to the app, which is usually `http://localhost:5000/`:
-
-```bash
-npm run dev
-```
-
-### Building for production
-
-Run the `build` script to bundle the app for production. The bundle will be created at `/dist/assets/` and the `dist`
-directory will contain all files you need to host the app:
-
-```bash
-npm run build
-```
-
-> 💡 **Tip:** You can quickly test the production build by running `npm run preview` locally.
-
----
-
-## Usage
-
-### Global stylesheets
-
-Edit the `index.html` file and add additional `<link>` references to stylesheets:
-
-```html
-<link rel="stylesheet" type="text/css" href="/src/styles/index.scss">
-```
-
-You can specify `css`, `scss`, and `sass` files here, and they will be compiled and minified as necessary. These styles
-will be added to the bundle in the order specified. Svelte's styles will always load last.
-
-> 💡 **Note:** The paths to these assets must start with `/` in order to resolve.
-
-### Browsers list
-
-The bundle will be compiled to run on the browsers specified in `package.json`:
-
-```json
-"browserslist": [
-    "defaults"
-]
-```
-
-If you wish to customize this, please refer to the list of
-[example browserslist queries](https://github.com/browserslist/browserslist#full-list).
-
-### Babel customization
-
-Production builds are compiled with Babel automatically. If you wish to disable it, edit the `vite.config.ts` file:
-
-```ts
-const useBabel = false;
-```
-
-### Source maps in production
-
-Source maps are generated automatically during development. They are not included in production builds by default. If
-you wish to change this behavior, edit the `vite.config.ts` file:
-
-```ts
-const sourceMapsInProduction = true;
-```
-
-### Import path aliases
-
-Define import path aliases from the `tsconfig.json` file. For example:
-
-```json
-"paths": {
-    "src/*": ["src/*"],
-    "@stores/*": ["src/stores/*"]
-}
-```
-
-You can then import files under these aliases and Vite will resolve them. Your code editor should also use them
-for automatic imports:
-
-```ts
-import { users } from '@stores/users'; // src/stores/users.ts
-```
-
-The root directory is configured as a base path for imports. This means you can also import modules with an absolute
-path from anywhere in the project instead of using a large number of `..` to traverse directories.
-
-```ts
-import { users } from 'src/stores/users';
-```
+Run `yarn dev` to start the example app.
+Run `yarn build` to ensure everything compiles.
+Run `yarn build && yarn preview` to compile and play with the production application.
