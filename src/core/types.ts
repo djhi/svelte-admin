@@ -1,4 +1,5 @@
 import type { QueryStatus } from "@sveltestack/svelte-query";
+import { UseGetListResult } from "./useGetList";
 
 export type DataProvider = {
   getList: <RecordType extends ResourceRecord = ResourceRecord>(
@@ -181,4 +182,8 @@ export interface ListContext<
   setPagination: (newPagination: Partial<PaginationPayload>) => void;
   setSort: (newSort: Partial<SortPayload>) => void;
   setFilter: (newFilter: FilterType) => void;
+}
+
+export interface ReferenceInputContext extends UseGetListResult {
+  source: string;
 }

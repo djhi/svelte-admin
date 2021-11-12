@@ -3,6 +3,7 @@ import Edit from "./Edit.svelte";
 import Form from "./Form.svelte";
 import List from "./List.svelte";
 import ReferenceField from "./ReferenceField.svelte";
+import ReferenceInput from "./ReferenceInput.svelte";
 import Resource from "./Resource.svelte";
 import Show from "./Show.svelte";
 
@@ -12,4 +13,14 @@ export * from "./form";
 export * from "./resources";
 export * from "./useGetList";
 export * from "./useGetOne";
-export { Admin, Edit, Form, List, ReferenceField, Resource, Show };
+export * from "./types";
+export {
+  Admin,
+  Edit,
+  Form,
+  List,
+  ReferenceField,
+  ReferenceInput,
+  Resource,
+  Show,
+};

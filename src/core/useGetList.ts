@@ -4,15 +4,15 @@ import type {
   UseQueryOptions,
   UseQueryStoreResult,
 } from "@sveltestack/svelte-query";
+import debounce from "lodash/debounce";
 import type {
   FilterPayload,
   GetListParams,
   GetListResult,
   PaginationPayload,
   ResourceRecord,
-  ResourceRecordMap,
   SortPayload,
-} from "../types";
+} from "./types";
 import { getDataProvider } from "./dataProvider";
 import { getResource } from "./resources";
 
@@ -117,7 +117,7 @@ export const useGetList = (
       ...options,
     });
   };
-  const setFilter = (newFilter: FilterPayload) => {
+  const setFilter = debounce((newFilter: FilterPayload) => {
     filter.set(newFilter);
     query.setOptions({
       queryFn,
@@ -134,7 +134,7 @@ export const useGetList = (
       onSuccess,
       ...options,
     });
-  };
+  }, 150);
 
   const subscribe = (subscriber) => {
     return query.subscribe((queryValue) => {

@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { setContext } from "svelte";
-    import { QueryClient, QueryClientProvider } from '@sveltestack/svelte-query';
+  import { setContext } from "svelte";
+  import { QueryClient, QueryClientProvider } from "@sveltestack/svelte-query";
 
-    import type { DataProvider } from "../types";
-	export let dataProvider: DataProvider;
+  import type { DataProvider } from "./types";
+  export let dataProvider: DataProvider;
 
-    setContext('dataProvider', dataProvider);
-    const queryClient = new QueryClient();
+  setContext("dataProvider", dataProvider);
+  const queryClient = new QueryClient();
 </script>
 
 <QueryClientProvider client={queryClient}>
-    <slot></slot>
+  <slot />
 </QueryClientProvider>

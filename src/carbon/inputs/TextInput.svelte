@@ -12,6 +12,7 @@
   <TextInputSkeleton {...$$restProps} />
 {:else}
   <TextInput
+    name={source}
     labelText={label}
     bind:value={$form[source]}
     on:input={handleChange}

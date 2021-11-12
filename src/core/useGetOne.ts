@@ -4,14 +4,12 @@ import type {
   UseQueryOptions,
   UseQueryStoreResult,
 } from "@sveltestack/svelte-query";
-import merge from "lodash/merge";
 import type {
   GetOneResult,
   GetOneParams,
   Identifier,
   ResourceRecord,
-  ResourceRecordMap,
-} from "../types";
+} from "./types";
 import { getDataProvider } from "./dataProvider";
 import { getResource } from "./resources";
 
