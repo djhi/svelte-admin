@@ -54,6 +54,9 @@ const config = <UserConfig>defineConfig({
       plugins: [autoprefixer()],
     },
   },
+  optimizeDeps: {
+    exclude: ["@sveltestack/svelte-query"],
+  },
 });
 
 // Babel
