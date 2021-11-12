@@ -56,6 +56,7 @@ const config = <UserConfig>defineConfig({
   },
   optimizeDeps: {
     exclude: ["@sveltestack/svelte-query"],
+    include: ["detect-node", "broadcast-channel"],
   },
 });
 
