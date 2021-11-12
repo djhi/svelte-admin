@@ -37,23 +37,26 @@ export const getResourceRecord = () => {
 
 export const resourceStore = {
   subscribe,
-  add: (definition: ResourceDefinition) =>
+  add: (definition: ResourceDefinition) => {
     update((store) => {
       store.byName[definition.name] = definition;
       const currentResourceIndex = store.byIndex.findIndex(
         (r) => r.name === definition.name
       );
 
-      if (currentResourceIndex) {
+      if (currentResourceIndex >= 0) {
         store.byIndex = [
           ...store.byIndex.slice(0, currentResourceIndex),
           definition,
           ...store.byIndex.slice(currentResourceIndex + 1),
         ];
+      } else {
+        store.byIndex.push(definition);
       }
 
       return store;
-    }),
+    });
+  },
   remove: (definition: ResourceDefinition) =>
     update((store) => {
       delete store.byName[definition.name];

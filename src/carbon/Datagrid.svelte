@@ -10,7 +10,7 @@
   import type { UseGetListResult } from "../core";
   import DatagridCell from "./DatagridCell.svelte";
   export let fields;
-  export let hasActions = true;
+  export let disableActions = false;
 
   const context = getContext<UseGetListResult>("list");
 
@@ -45,7 +45,7 @@
       value: field,
     }))
     .concat(
-      hasActions ? { key: "@@actions", value: "Actions", empty: true } : []
+      disableActions ? [] : { key: "@@actions", value: "Actions", empty: true }
     )}
   rows={$context?.data?.data ?? []}
   on:click:header={handleHeaderClick}
