@@ -200,7 +200,6 @@ export interface SideEffects {
   redirect: RedirectFunction;
 }
 
-export type SuccessSideEffectsFunction = <DataType = any>(
-  data: DataType,
-  sideEffects: SideEffects
-) => void;
+export interface SuccessSideEffectsFunction<DataType = any> {
+  (data: DataType, sideEffects: SideEffects): void;
+}

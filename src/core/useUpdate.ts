@@ -40,7 +40,7 @@ export const useUpdate = (
     queryClient.invalidateQueries([resource, "getList"]);
     queryClient.invalidateQueries([resource, "getOne", { id: data.data.id }]);
     queryClient.setQueryData([resource, { id: data.data.id }], data);
-    userOnSuccess(data, getSideEffects());
+    userOnSuccess(data.data, getSideEffects());
   };
 
   const mutation = useMutation<UpdateResult, Error, UpdateParams>(mutationFn, {

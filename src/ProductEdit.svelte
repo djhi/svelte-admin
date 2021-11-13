@@ -1,11 +1,25 @@
 <script lang="ts">
-  import { Edit } from "./core";
+  import {
+    Edit,
+    getResource,
+    ResourceRecord,
+    SuccessSideEffectsFunction,
+  } from "./core";
   import { Form, NumberInput, AutocompleteInput, TextInput } from "./carbon";
   import { FormGroup } from "carbon-components-svelte";
   import ReferenceInput from "./core/ReferenceInput.svelte";
+
+  const { name: resource } = getResource();
+  const handleSuccess: SuccessSideEffectsFunction<ResourceRecord> = (
+    data,
+    effects
+  ) => {
+    effects.redirect("list", resource);
+    effects.notify(`Successfully updated ${data.reference}`);
+  };
 </script>
 
-<Edit>
+<Edit onSuccess={handleSuccess}>
   <Form>
     <FormGroup>
       <TextInput source="reference" label="Reference" />
