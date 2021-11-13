@@ -1,35 +1,18 @@
 {
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "concurrently \"npm:dev:core\" \"npm:dev:carbon\" \"npm:dev:demo\"",
+    "dev:core": "cd packages/core && pnpm run watch",
+    "dev:carbon": "cd packages/carbon && pnpm run watch",
+    "dev:demo": "cd packages/demo && pnpm run dev"
   },
   "dependencies": {},
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.15",
-    "@sveltestack/svelte-query": "^1.4.1",
-    "@types/inflection": "^1.13.0",
-    "@vitejs/plugin-legacy": "^1.5.1",
-    "autoprefixer": "^10.3.1",
-    "broadcast-channel": "^4.5.0",
-    "carbon-components": "^10.48.0",
-    "carbon-components-svelte": "^0.48.0",
-    "carbon-icons-svelte": "^10.38.0",
-    "carbon-preprocess-svelte": "^0.6.0",
-    "data-generator-retail": "^3.19.0",
-    "inflection": "^1.13.1",
-    "lodash": "^4.17.21",
-    "ra-data-fakerest": "^3.19.0",
-    "sass": "^1.37.5",
-    "svelte": "^3.42.1",
-    "svelte-forms-lib": "^2.0.0",
-    "svelte-preprocess": "^4.7.4",
-    "tinro": "^0.6.7",
-    "typescript": "^4.3.5",
-    "vite": "^2.4.4"
+    "concurrently": "^6.4.0",
+    "svelte2tsx": "^0.4.8",
+    "typescript": "^4.4.4"
   },
-  "browserslist": [
-    "defaults"
+  "workspaces": [
+    "./packages/*"
   ]
 }

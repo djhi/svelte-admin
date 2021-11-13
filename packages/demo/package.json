@@ -1,0 +1,32 @@
+{
+  "name": "@svelte-admin/demo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@svelte-admin/core": "^0.0.1",
+    "@svelte-admin/carbon": "^0.0.1",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.15",
+    "@vitejs/plugin-legacy": "^1.5.1",
+    "autoprefixer": "^10.3.1",
+    "broadcast-channel": "^4.5.0",
+    "carbon-components-svelte": "^0.48.0",
+    "carbon-preprocess-svelte": "^0.6.0",
+    "data-generator-retail": "^3.19.0",
+    "detect-node": "^2.1.0",
+    "ra-data-fakerest": "^3.19.0",
+    "sass": "^1.37.5",
+    "svelte": "^3.42.1",
+    "svelte-preprocess": "^4.7.4",
+    "typescript": "^4.3.5",
+    "vite": "^2.4.4"
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

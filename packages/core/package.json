@@ -1,0 +1,32 @@
+{
+  "name": "@svelte-admin/core",
+  "version": "0.0.1",
+  "main": "dist/svelte-admin-core.js",
+  "module": "dist/svelte-admin-core.es.js",
+  "svelte": "src/index.ts",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "node esbuild",
+    "watch": "WATCH=true node esbuild"
+  },
+  "dependencies": {
+    "inflection": "^1.13.1",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@sveltestack/svelte-query": "^1.4.1",
+    "@types/inflection": "^1.13.0",
+    "esbuild": "^0.12.15",
+    "esbuild-svelte": "^0.5.3",
+    "svelte": "^3.42.1",
+    "svelte-forms-lib": "^2.0.0",
+    "svelte-preprocess": "^4.7.4",
+    "tinro": "^0.6.7"
+  },
+  "peerDependencies": {
+    "@sveltestack/svelte-query": "^1.4.1",
+    "svelte": "^3.42.1",
+    "svelte-forms-lib": "^2.0.0",
+    "tinro": "^0.6.7"
+  }
+}
