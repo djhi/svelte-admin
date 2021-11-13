@@ -1,4 +1,5 @@
 import Admin from "./Admin.svelte";
+import Create from "./Create.svelte";
 import Edit from "./Edit.svelte";
 import Form from "./Form.svelte";
 import List from "./List.svelte";
@@ -17,6 +18,7 @@ export * from "./useGetOne";
 export * from "./types";
 export {
   Admin,
+  Create,
   Edit,
   Form,
   List,

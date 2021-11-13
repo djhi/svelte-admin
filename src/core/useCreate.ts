@@ -3,9 +3,10 @@ import type {
   UseMutationOptions,
   MutationStoreResult,
 } from "@sveltestack/svelte-query";
+import merge from "lodash/merge";
 import type {
-  UpdateResult,
-  UpdateParams,
+  CreateResult,
+  CreateParams,
   ResourceRecord,
   SuccessSideEffectsFunction,
 } from "./types";
@@ -13,10 +14,10 @@ import { getDataProvider } from "./dataProvider";
 import { getResource } from "./resources";
 import { getSideEffects } from "./getSideEffects";
 
-export const useUpdate = (
-  params?: Partial<UseUpdateParams>,
-  options: UseUpdateOptions = {}
-): MutationStoreResult<UpdateResult<ResourceRecord>, Error> => {
+export const useCreate = (
+  params?: Partial<UseCreateParams>,
+  options: UseCreateOptions = {}
+): MutationStoreResult<CreateResult<ResourceRecord>, Error> => {
   const dataProvider = getDataProvider();
   const { name } = getResource();
   const queryClient = useQueryClient();
@@ -24,26 +25,27 @@ export const useUpdate = (
   const { onSuccess: userOnSuccess, ...mutationOptions } = options;
 
   const resourceName = resource || name;
-  const mutationFn = (variables: UpdateParams) => {
+  const mutationFn = (variables: CreateParams) => {
     return dataProvider
-      .update(resourceName, {
-        id: queryParams.id,
-        data: variables,
-        previousData: queryParams.previousData,
-      })
+      .create(resourceName, { data: variables })
       .then(({ data }) => ({
         data,
       }));
   };
 
-  const onSuccess = (data: UpdateResult<ResourceRecord>) => {
+  const onSuccess = (
+    data: CreateResult<ResourceRecord>,
+    variables: CreateParams
+  ) => {
     queryClient.invalidateQueries([resource, "getList"]);
-    queryClient.invalidateQueries([resource, "getOne", { id: data.data.id }]);
-    queryClient.setQueryData([resource, { id: data.data.id }], data);
-    userOnSuccess(data, getSideEffects());
+    const record = merge(data.data, variables.data);
+    queryClient.setQueryData([resource, { id: data.data.id }], {
+      data: record,
+    });
+    userOnSuccess(record, getSideEffects());
   };
 
-  const mutation = useMutation<UpdateResult, Error, UpdateParams>(mutationFn, {
+  const mutation = useMutation<CreateResult, Error, CreateParams>(mutationFn, {
     onSuccess,
     ...mutationOptions,
   });
@@ -52,13 +54,13 @@ export const useUpdate = (
   return mutation;
 };
 
-export interface UseUpdateParams extends UpdateParams {
+export interface UseCreateParams extends CreateParams {
   resource?: string;
 }
 
-export interface UseUpdateOptions
+export interface UseCreateOptions
   extends Omit<
-    UseMutationOptions<UpdateResult<ResourceRecord>, Error, UpdateParams, any>,
+    UseMutationOptions<CreateResult<ResourceRecord>, Error, CreateParams, any>,
     "onSuccess"
   > {
   onSuccess?: SuccessSideEffectsFunction;

@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { List, ReferenceField } from "./core";
+  import { ReferenceField } from "./core";
   import {
     Datagrid,
     EditButton,
+    List,
     NumberField,
     ShowButton,
     TextField,

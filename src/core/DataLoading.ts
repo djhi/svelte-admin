@@ -21,9 +21,8 @@ export const getIsLoading = () => {
     DataLoadingContextKey
   );
 
-  const isLoading = derived(
-    dataLoadingContext,
-    ($ctx) => $ctx.status === "idle" || $ctx.status === "loading"
+  const isLoading = derived(dataLoadingContext, ($ctx) =>
+    $ctx ? $ctx.status === "loading" : false
   );
 
   return isLoading;

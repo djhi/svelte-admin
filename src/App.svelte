@@ -8,6 +8,7 @@
   import ProductShow from "./ProductShow.svelte";
   import CategoryList from "./CategoryList.svelte";
   import { delayedDataProvider } from "./dataProvider";
+  import ProductCreate from "./ProductCreate.svelte";
   const dataProvider = delayedDataProvider(2000);
 </script>
 
@@ -15,15 +16,12 @@
   <Layout title="Poster-galore">
     <Resource name="products">
       <ProductList slot="index" />
-      <div slot="create" />
+      <ProductCreate slot="create" />
       <ProductEdit slot="edit" />
       <ProductShow slot="show" />
     </Resource>
     <Resource name="categories">
       <CategoryList slot="index" />
-      <div slot="create" />
-      <div slot="edit" />
-      <div slot="show" />
     </Resource>
   </Layout>
 </Admin>

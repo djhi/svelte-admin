@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { List } from "./core";
-  import { Datagrid, TextField } from "./carbon";
+  import { Datagrid, List, TextField } from "./carbon";
 </script>
 
 <List>

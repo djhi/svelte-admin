@@ -6,10 +6,10 @@
   export let name: string = "";
 
   const definition = {
-    hasCreate: $$slots.create,
-    hasEdit: $$slots.edit,
-    hasList: $$slots.index,
-    hasShow: $$slots.show,
+    hasCreate: !!$$slots.create,
+    hasEdit: !!$$slots.edit,
+    hasList: !!$$slots.index,
+    hasShow: !!$$slots.show,
     name,
   };
 
