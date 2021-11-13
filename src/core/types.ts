@@ -1,5 +1,6 @@
 import type { QueryStatus } from "@sveltestack/svelte-query";
 import { UseGetListResult } from "./useGetList";
+import { Notification } from "./notifications";
 
 export type DataProvider = {
   getList: <RecordType extends ResourceRecord = ResourceRecord>(
@@ -187,3 +188,19 @@ export interface ListContext<
 export interface ReferenceInputContext extends UseGetListResult {
   source: string;
 }
+
+export interface RedirectFunction {
+  (url: string): void;
+  (url: "list", resource: string): void;
+  (url: "edit" | "show", resource: string, id: Identifier): void;
+}
+
+export interface SideEffects {
+  notify: (message: string | Omit<Notification, "id">) => void;
+  redirect: RedirectFunction;
+}
+
+export type SuccessSideEffectsFunction = <DataType = any>(
+  data: DataType,
+  sideEffects: SideEffects
+) => void;

@@ -10,6 +10,7 @@ import Show from "./Show.svelte";
 export * from "./DataLoading";
 export * from "./dataProvider";
 export * from "./form";
+export * from "./notifications";
 export * from "./resources";
 export * from "./useGetList";
 export * from "./useGetOne";

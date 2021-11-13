@@ -1,22 +1,29 @@
 <script lang="ts">
   import { setContext } from "svelte";
-  import { derived, get, writable } from "svelte/store";
+  import { derived, writable } from "svelte/store";
   import { meta } from "tinro";
   import { capitalize, singularize } from "inflection";
-  import { useMutation } from "@sveltestack/svelte-query";
   import { setDataLoadingState } from "./DataLoading";
   import { setPageTitle } from "./pageTitle";
   import { getResource, setResourceRecord } from "./resources";
   import { useGetOne } from "./useGetOne";
-  import { getDataProvider } from "./dataProvider";
+  import { useUpdate } from "./useUpdate";
+  import { SuccessSideEffectsFunction } from "./types";
 
   const route = meta();
   export let id = route.params.id;
-  const { name } = getResource();
-  let resolvedPageTitle = writable(`${capitalize(singularize(name))} #${id}`);
+  const { name: resource } = getResource();
+
+  export let onSuccess: SuccessSideEffectsFunction = (data, sideEffects) => {
+    sideEffects.redirect("list", resource);
+    sideEffects.notify("Record saved!");
+  };
+  let resolvedPageTitle = writable(
+    `${capitalize(singularize(resource))} #${id}`
+  );
   export let pageTitle = undefined;
 
-  const queryParams = { resource: name, id };
+  const queryParams = { resource, id };
   const queryStore = useGetOne(queryParams);
   const record = derived(queryStore, ($query) => $query?.data?.data);
   setResourceRecord(record);
@@ -36,17 +43,18 @@
   }));
   setDataLoadingState(dataLoadingContext);
 
-  const dataProvider = getDataProvider();
-  const mutation = useMutation((values) => {
-    return dataProvider.update(name, {
+  const mutation = useUpdate(
+    {
       id,
-      data: values,
-      previousData: get(record),
-    });
-  });
+      resource,
+    },
+    {
+      onSuccess,
+    }
+  );
 
   export const save = (values) => {
-    return $mutation.mutateAsync(values);
+    $mutation.mutateAsync(values);
   };
 
   setContext("save", save);

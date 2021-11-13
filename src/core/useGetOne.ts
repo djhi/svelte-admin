@@ -1,4 +1,4 @@
-import { derived, Readable } from "svelte/store";
+import { Readable } from "svelte/store";
 import { useQuery, useQueryClient } from "@sveltestack/svelte-query";
 import type {
   UseQueryOptions,
@@ -19,7 +19,7 @@ export const useGetOne = (
     GetOneResult<ResourceRecord>,
     Error,
     GetOneResult<ResourceRecord>,
-    [string, UseGetOneParams]
+    UseGetOneQueryKey
   > = {
     enabled: true,
   }
@@ -30,20 +30,15 @@ export const useGetOne = (
   const { resource, ...queryParams } = params;
 
   const resourceName = resource || name;
-  const queryFn = ({ queryKey }) => {
-    return dataProvider.getOne(queryKey[0], queryKey[1]).then(({ data }) => ({
+  const queryFn = ({ queryKey }: { queryKey: UseGetOneQueryKey }) => {
+    return dataProvider.getOne(queryKey[0], queryKey[2]).then(({ data }) => ({
       data,
-      ...queryKey[1],
+      ...queryKey[2],
     }));
   };
 
-  const query = useQuery<
-    GetOneResult,
-    Error,
-    GetOneResult,
-    [string, UseGetOneParams]
-  >({
-    queryKey: [resourceName, queryParams],
+  const query = useQuery<GetOneResult, Error, GetOneResult, UseGetOneQueryKey>({
+    queryKey: [resourceName, "getOne", queryParams],
     queryFn,
     staleTime: 1000,
     keepPreviousData: true,
@@ -57,7 +52,7 @@ export const useGetOne = (
       GetOneResult<ResourceRecord>,
       Error,
       GetOneResult<ResourceRecord>,
-      [string, UseGetOneParams]
+      UseGetOneQueryKey
     > = {
       enabled: true,
     }
@@ -66,9 +61,9 @@ export const useGetOne = (
       GetOneResult<ResourceRecord>,
       Error,
       GetOneResult<ResourceRecord>,
-      [string, UseGetOneParams]
+      UseGetOneQueryKey
     > = {
-      queryKey: [resourceName, { ...queryParams, id }],
+      queryKey: [resourceName, "getOne", { ...queryParams, id }],
       queryFn,
       staleTime: 1000,
       keepPreviousData: true,
@@ -84,7 +79,6 @@ export const useGetOne = (
 
 export interface UseGetOneParams extends GetOneParams {
   resource?: string;
-  id: Identifier;
 }
 
 export interface UseGetOneResult
@@ -92,7 +86,7 @@ export interface UseGetOneResult
     GetOneResult<ResourceRecord>,
     Error,
     GetOneResult<ResourceRecord>,
-    [string, UseGetOneParams]
+    UseGetOneQueryKey
   > {
   data: Readable<GetOneResult>;
   setId: (
@@ -101,7 +95,9 @@ export interface UseGetOneResult
       GetOneResult<ResourceRecord>,
       Error,
       GetOneResult<ResourceRecord>,
-      [string, UseGetOneParams]
+      UseGetOneQueryKey
     >
   ) => void;
 }
+
+type UseGetOneQueryKey = [string, "getOne", UseGetOneParams];

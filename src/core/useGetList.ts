@@ -40,7 +40,7 @@ export const useGetList = (
 
   const queryFn = ({ queryKey }: { queryKey: UseGetListQueryKey }) => {
     return dataProvider
-      .getList(queryKey[0], queryKey[1])
+      .getList(queryKey[0], queryKey[2])
       .then(({ data, total }) => ({
         data,
         total,
@@ -49,7 +49,7 @@ export const useGetList = (
 
   const onSuccess = (data) => {
     data.data.forEach((record) => {
-      const queryKey = [resourceName, { id: record.id.toString() }];
+      const queryKey = [resourceName, "getOne", { id: record.id.toString() }];
       queryClient.setQueryData(queryKey, { data: record });
     });
   };
@@ -62,6 +62,7 @@ export const useGetList = (
   >({
     queryKey: [
       resourceName,
+      "getList",
       {
         pagination: get(pagination),
         sort: get(sort),
@@ -84,6 +85,7 @@ export const useGetList = (
       queryFn,
       queryKey: [
         resourceName,
+        "getList",
         {
           pagination: get(pagination),
           sort: get(sort),
@@ -105,6 +107,7 @@ export const useGetList = (
       queryFn,
       queryKey: [
         resourceName,
+        "getList",
         {
           pagination: get(pagination),
           sort: get(sort),
@@ -123,6 +126,7 @@ export const useGetList = (
       queryFn,
       queryKey: [
         resourceName,
+        "getList",
         {
           pagination: get(pagination),
           sort: get(sort),
@@ -155,6 +159,7 @@ export const useGetList = (
     setFilter,
   };
 
+  // @ts-ignore
   return result;
 };
 
@@ -178,4 +183,4 @@ export interface UseGetListResult
   setFilter: (newFilter: FilterPayload) => void;
 }
 
-type UseGetListQueryKey = [string, UseGetListParams];
+type UseGetListQueryKey = [string, "getList", UseGetListParams];
