@@ -1,26 +1,10 @@
 {
-	"include": ["src/**/*", "webpack.config.ts"],
-	"exclude": ["node_modules/*", "__sapper__/*", "public/*"],
-	"compilerOptions": {
-		"moduleResolution": "node",
-		"target": "es2017",
-		"module": "es2020",
-		"importsNotUsedAsValues": "remove",
-		"isolatedModules": true,
-		"esModuleInterop": true,
-		"sourceMap": true,
-		"strict": false,
-		"baseUrl": ".",
-		"paths": {
-			"src/*": ["src/*"]
-		},
-		"types": [
-			"svelte",
-			"svelte/store",
-			"svelte/motion",
-			"svelte/transition",
-			"svelte/animate",
-			"svelte/easing"
-		]
-	}
+  "compilerOptions": {
+    "baseUrl": "./packages",
+    "paths": {
+      "@svelte-admin/core/*": ["core/src/*"],
+      "@svelte-admin/carbon/*": ["carbon/src/*"]
+    }
+  },
+  "files": []
 }

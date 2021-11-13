@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDirs": ["./src", "./package"],
+    "outDir": "./dist",
+    "types": [
+      "svelte",
+      "svelte/store",
+      "svelte/motion",
+      "svelte/transition",
+      "svelte/animate",
+      "svelte/easing"
+    ]
+  },
+  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
+}
