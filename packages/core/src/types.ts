@@ -1,6 +1,6 @@
 import type { QueryStatus } from "@sveltestack/svelte-query";
-import { UseGetListResult } from "./useGetList";
-import { Notification } from "./notifications";
+import type { UseGetListResult } from "./useGetList";
+import type { Notification } from "./notifications";
 
 export type DataProvider = {
   getList: <RecordType extends ResourceRecord = ResourceRecord>(

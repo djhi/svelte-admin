@@ -1,4 +1,5 @@
-import { get, Readable, writable } from "svelte/store";
+import { get, writable } from "svelte/store";
+import type { Readable } from "svelte/store";
 import { useQuery, useQueryClient } from "@sveltestack/svelte-query";
 import type {
   UseQueryOptions,

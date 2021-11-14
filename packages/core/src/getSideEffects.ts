@@ -1,5 +1,5 @@
 import { router } from "tinro";
-import { Identifier, SideEffects } from "./types";
+import type { Identifier, SideEffects } from "./types";
 import { Notifications } from "./notifications";
 
 function redirect(url: string): void;

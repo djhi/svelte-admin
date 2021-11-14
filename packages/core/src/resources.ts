@@ -1,5 +1,6 @@
 import { getContext, setContext } from "svelte";
-import { writable, Readable } from "svelte/store";
+import { writable } from "svelte/store";
+import type { Readable } from "svelte/store";
 import type { ResourceRecord } from "./types";
 
 export type ResourceDefinition = {
