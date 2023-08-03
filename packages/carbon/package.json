@@ -21,7 +21,7 @@
     "carbon-icons-svelte": "^10.38.0",
     "esbuild": "^0.12.15",
     "esbuild-svelte": "^0.5.3",
-    "svelte": "^3.42.1",
+    "svelte": "^3.49.0",
     "svelte-preprocess": "^4.7.4",
     "tinro": "^0.6.7"
   },
@@ -30,7 +30,7 @@
     "carbon-components": "^10.48.0",
     "carbon-components-svelte": "^0.48.0",
     "carbon-icons-svelte": "^10.38.0",
-    "svelte": "^3.42.1",
+    "svelte": "^3.49.0",
     "svelte-forms-lib": "^2.0.0",
     "tinro": "^0.6.7"
   }
